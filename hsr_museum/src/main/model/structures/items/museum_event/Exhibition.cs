@@ -1,3 +1,4 @@
+using System.Globalization;
 using Newtonsoft.Json;
 
 namespace hsr_museum.src.main.model.structures.items.museum_event
@@ -8,18 +9,20 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
         public ulong id { get; private set; }
         [JsonProperty("Name")]
         public string name { get; private set; }
+        [JsonProperty("BaseStats")]
+        public uint[][] baseStats { get; private set; }
         [JsonProperty("Level")]
         public uint level { get; private set; }
-        [JsonProperty("TourDuration")]
-        public uint tourDuration { get; private set; }
+        [JsonProperty("TourDurations")]
+        public uint[] tourDurations { get; private set; }
         [JsonProperty("TourDurationLevel")]
         public uint tourDurationLevel { get; private set; }
-        [JsonProperty("EducationalValue")]
-        public uint educationalValue { get; private set; }
+        [JsonProperty("EducationalValues")]
+        public uint[] educationalValues { get; private set; }
         [JsonProperty("EducationalValueLevel")]
         public uint educationalValueLevel { get; private set; }
-        [JsonProperty("VisitorAppeal")]
-        public uint visitorAppeal { get; private set; }
+        [JsonProperty("VisitorAppeals")]
+        public uint[] visitorAppeals { get; private set; }
         [JsonProperty("VisitorAppealLevel")]
         public uint visitorAppealLevel { get; private set; }
         public Employee[] employees { get; private set; }
@@ -37,19 +40,20 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
         /// <param name="visitorAppeal">parameter 3's capacity</param>
         /// <param name="visitorAppealLevel">parameter 3's level</param>
         [JsonConstructor]
-        public Exhibition(ulong id, string name, uint level, uint tourDuration, uint tourDurationLevel,
-                            uint educationalValue, uint educationalValueLevel, uint visitorAppeal,
-                            uint visitorAppealLevel) {
+        public Exhibition(ulong ID, string Name, uint[][] BaseStats, uint Level, uint[] TourDurations, uint TourDurationLevel,
+                            uint[] EducationalValues, uint EducationalValueLevel, uint[] VisitorAppeals,
+                            uint VisitorAppealLevel) {
 
-            this.id = id;
-            this.name = name;
-            this.level = level;
-            this.tourDuration = tourDuration;
-            this.tourDurationLevel = tourDurationLevel;
-            this.educationalValue = educationalValue;
-            this.educationalValueLevel = educationalValueLevel;
-            this.visitorAppeal = visitorAppeal;
-            this.visitorAppealLevel = visitorAppealLevel;
+            this.id = ID;
+            this.name = Name;
+            this.baseStats = BaseStats;
+            this.level = Level;
+            this.tourDurations = TourDurations;
+            this.tourDurationLevel = TourDurationLevel;
+            this.educationalValues = EducationalValues;
+            this.educationalValueLevel = EducationalValueLevel;
+            this.visitorAppeals = VisitorAppeals;
+            this.visitorAppealLevel = VisitorAppealLevel;
             this.employees = new Employee[3];
         }
 
@@ -63,12 +67,13 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
         public Exhibition(Exhibition exhibition) {
             this.id = exhibition.id;
             this.name = exhibition.name;
+            this.baseStats = exhibition.baseStats;
             this.level = 1;
-            this.tourDuration = exhibition.tourDuration;
+            this.tourDurations = exhibition.tourDurations;
             this.tourDurationLevel = 1;
-            this.educationalValue = exhibition.educationalValue;
+            this.educationalValues = exhibition.educationalValues;
             this.educationalValueLevel = 1;
-            this.visitorAppeal = exhibition.visitorAppeal;
+            this.visitorAppeals = exhibition.visitorAppeals;
             this.visitorAppealLevel = 1;
             this.employees = new Employee[3];
         }
@@ -114,10 +119,11 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
         public int[] offsets() {
             int[] offsets = new int[3];
             uint[] currVals = this.totalValues();
+            uint[] capVals = this.exValues();
 
-            offsets[0] = (int)currVals[0] - (int)this.tourDuration;
-            offsets[1] = (int)currVals[1] - (int)this.educationalValue;
-            offsets[2] = (int)currVals[2] - (int)this.visitorAppeal;
+            offsets[0] = (int)currVals[0] - (int)capVals[0];
+            offsets[1] = (int)currVals[1] - (int)capVals[1];
+            offsets[2] = (int)currVals[2] - (int)capVals[2];
 
             return offsets;
 
@@ -135,10 +141,11 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
             int numberLess = 0;
 
             uint[] currVals = this.totalValues();
+            uint[] capVals = this.exValues();
 
-            if (currVals[0] < this.tourDuration) { numberLess += 1; }
-            if (currVals[1] < this.educationalValue) { numberLess += 1; }
-            if (currVals[2] < this.visitorAppeal) { numberLess += 1; }
+            if (currVals[0] < capVals[0]) { numberLess += 1; }
+            if (currVals[1] < capVals[1]) { numberLess += 1; }
+            if (currVals[2] < capVals[2]) { numberLess += 1; }
 
             return Math.Pow(numberLess, 50);
         }
@@ -161,6 +168,17 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
                 result[1] += employee.educationalValue;
                 result[2] += employee.visitorAppeal;
             }
+            return result;
+        }
+
+        private uint[] exValues() {
+            uint[] result = new uint[3];
+            uint[] currBaseStat = this.baseStats[this.level];
+
+            result[0] = currBaseStat[0] + this.tourDurations[this.tourDurationLevel];
+            result[1] = currBaseStat[1] + this.educationalValues[this.educationalValueLevel];
+            result[2] = currBaseStat[2] + this.visitorAppeals[this.visitorAppealLevel];
+
             return result;
         }
 

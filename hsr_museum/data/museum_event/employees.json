@@ -1,122 +1,233 @@
 {
-    "Lettuce": {
-        "ID": 131073,
-        "Name": "🥬Lettuce",
-        "SeedName": "🥬Lettuce Seeds",
-        "SeedID": 65537,
-        "BuyPrice": 0.00,
-        "SellPrice": 3.50
+    "Pela": {
+        "ID": 0,
+        "Name": "Pela",
+        "TourDuration": 30,
+        "EducationalValue": 30,
+        "VisitorAppeal": 30   
     },
-    "Cucumber": {
-        "ID": 131074,
-        "Name": "🥒Cucumber",
-        "SeedName": "🥒Cucumber Seeds",
-        "SeedID": 65538,
-        "BuyPrice": 0.00,
-        "SellPrice": 2.00
+    "Natasha": {
+        "ID": 1,
+        "Name": "Natasha",
+        "TourDuration": 56,
+        "EducationalValue": 15,
+        "VisitorAppeal": 64
     },
-    "Corn": {
-        "ID": 131075,
-        "Name": "🌽Corn",
-        "SeedName": "🌽Corn Seeds",
-        "SeedID": 65539,
-        "BuyPrice": 0.00,
-        "SellPrice": 4.00
+    "Hook": {
+        "ID": 2,
+        "Name": "Hook",
+        "TourDuration": 80,
+        "EducationalValue": 0,
+        "VisitorAppeal": 76
     },
-    "Carrot": {
-        "ID": 131076,
-        "Name": "🥕Carrot",
-        "SeedName": "🥕Carrot Seeds",
-        "SeedID": 65540,
-        "BuyPrice": 0.00,
-        "SellPrice": 60.0
+    "Bronya": {
+        "ID": 3,
+        "Name": "Bronya",
+        "TourDuration": 48,
+        "EducationalValue": 23,
+        "VisitorAppeal": 85
     },
-    "Potato": {
-        "ID": 131077,
-        "Name": "🥔Potato",
-        "SeedName": "🥔Potato Seeds",
-        "SeedID": 65541,
-        "BuyPrice": 0.00,
-        "SellPrice": 10.00
+    "Seele": {
+        "ID": 4,
+        "Name": "Seele",
+        "TourDuration": 88,
+        "EducationalValue": 72,
+        "VisitorAppeal": 26
     },
-    "Tomato": {
-        "ID": 131078,
-        "Name": "🍅Tomato",
-        "SeedName": "🍅Tomato Seeds",
-        "SeedID": 65542,
-        "BuyPrice": 0.00,
-        "SellPrice": 10.00
+    "Clara": {
+        "ID": 5,
+        "Name": "Clara",
+        "TourDuration": 15,
+        "EducationalValue": 75,
+        "VisitorAppeal": 78
     },
-    "Eggplant": {
-        "ID": 131079,
-        "Name": "🍆Eggplant",
-        "SeedName": "🍆Eggplant Seeds",
-        "SeedID": 65543,
-        "BuyPrice": 0.00,
-        "SellPrice": 15.00
+    "Serval": {
+        "ID": 6,
+        "Name": "Serval",
+        "TourDuration": 68,
+        "EducationalValue": 57,
+        "VisitorAppeal": 10
     },
-    "Pepper": {
-        "ID": 131080,
-        "Name": "🌶️Pepper",
-        "SeedName": "🌶️Pepper Seeds",
-        "SeedID": 65544,
-        "BuyPrice": 0.00,
-        "SellPrice": 15.00
+    "Mr. Cold Feet": {
+        "ID": 7,
+        "Name": "Mr. Cold Feet",
+        "TourDuration": 93,
+        "EducationalValue": 93,
+        "VisitorAppeal": 0
     },
-    "Broccoli": {
-        "ID": 131081,
-        "Name": "🥦Broccoli",
-        "SeedName": "🥦Broccoli Seeds",
-        "SeedID": 65545,
-        "BuyPrice": 0.00,
-        "SellPrice": 130.00
+    "Gepard": {
+        "ID": 8,
+        "Name": "Gepard",
+        "TourDuration": 5,
+        "EducationalValue": 80,
+        "VisitorAppeal": 83
     },
-    "Wheat": {
-        "ID": 131082,
-        "Name": "🌾Wheat",
-        "SeedName": "🌾Wheat Seeds",
-        "SeedID": 65546,
-        "BuyPrice": 0.00,
-        "SellPrice": 20.0
+    "Amo": {
+        "ID": 9,
+        "Name": "Amo",
+        "TourDuration": 40,
+        "EducationalValue": 8,
+        "VisitorAppeal": 30
     },
-    "Onion": {
-        "ID": 131083,
-        "Name": "🧅Onion",
-        "SeedName": "🧅Onion Seeds",
-        "SeedID": 65547,
-        "BuyPrice": 0.00,
-        "SellPrice": 210.0
+    "Elaine": {
+        "ID": 10,
+        "Name": "Elaine",
+        "TourDuration": 26,
+        "EducationalValue": 26,
+        "VisitorAppeal": 26
     },
-    "Garlic": {
-        "ID": 131084,
-        "Name": "🧄Garlic",
-        "SeedName": "🧄Garlic Seeds",
-        "SeedID": 65548,
-        "BuyPrice": 0.00,
-        "SellPrice": 100.00
+    "Serval's Fanatic Fan": {
+        "ID": 11,
+        "Name": "Serval's Fanatic Fan",
+        "TourDuration": 20,
+        "EducationalValue": 44,
+        "VisitorAppeal": 14
     },
-    "Pumpkin": {
-        "ID": 131085,
-        "Name": "🎃Pumpkin",
-        "SeedName": "🎃Pumpkin Seeds",
-        "SeedID": 65549,
-        "BuyPrice": 0.00,
-        "SellPrice": 100.00
+    "Lila": {
+        "ID": 12,
+        "Name": "Lila",
+        "TourDuration": 52,
+        "EducationalValue": 14,
+        "VisitorAppeal": 30
     },
-    "Watermelon": {
-        "ID": 131086,
-        "Name": "🍉Watermelon",
-        "SeedName": "🍉Watermelon Seeds",
-        "SeedID": 65550,
-        "BuyPrice": 0.00,
-        "SellPrice": 150.0
+    "Gilbert": {
+        "ID": 13,
+        "Name": "Gilbert",
+        "TourDuration": 36,
+        "EducationalValue": 40,
+        "VisitorAppeal": 20
     },
-    "Cake": {
-        "ID": 131093,
-        "Name": "Cake",
-        "SeedName": "Cake Seeds",
-        "SeedID": 65557,
-        "BuyPrice": 0.00,
-        "SellPrice": 50.00
+    "Julian": {
+        "ID": 14,
+        "Name": "Julian",
+        "TourDuration": 52,
+        "EducationalValue": 20,
+        "VisitorAppeal": 36
+    },
+    "Fersman": {
+        "ID": 15,
+        "Name": "Fersman",
+        "TourDuration": 50,
+        "EducationalValue": 29,
+        "VisitorAppeal": 17
+    },
+    "Peak": {
+        "ID": 16,
+        "Name": "Peak",
+        "TourDuration": 44,
+        "EducationalValue": 54,
+        "VisitorAppeal": 10
+    },
+    "Cunning Child": {
+        "ID": 17,
+        "Name": "Cunning Child",
+        "TourDuration": 8,
+        "EducationalValue": 58,
+        "VisitorAppeal": 42
+    },
+    "Rossy": {
+        "ID": 18,
+        "Name": "Rossy",
+        "TourDuration": 54,
+        "EducationalValue": 54,
+        "VisitorAppeal": 0
+    },
+    "Perkins": {
+        "ID": 19,
+        "Name": "Perkins",
+        "TourDuration": 42,
+        "EducationalValue": 22,
+        "VisitorAppeal": 65
+    },
+    "Gertie": {
+        "ID": 20,
+        "Name": "Gertie",
+        "TourDuration": 10,
+        "EducationalValue": 66,
+        "VisitorAppeal": 50
+    },
+    "Fidora": {
+        "ID": 21,
+        "Name": "Fidora",
+        "TourDuration": 63,
+        "EducationalValue": 0,
+        "VisitorAppeal": 63
+    },
+    "Eric": {
+        "ID": 22,
+        "Name": "Eric",
+        "TourDuration": 78,
+        "EducationalValue": 9,
+        "VisitorAppeal": 39
+    },
+    "Manya": {
+        "ID": 23,
+        "Name": "Manya",
+        "TourDuration": 66,
+        "EducationalValue": 60,
+        "VisitorAppeal": 15
+    },
+    "Wallace": {
+        "ID": 24,
+        "Name": "Wallace",
+        "TourDuration": 56,
+        "EducationalValue": 72,
+        "VisitorAppeal": 40
+    },
+    "Alina": {
+        "ID": 25,
+        "Name": "Alina",
+        "TourDuration": 54,
+        "EducationalValue": 16,
+        "VisitorAppeal": 71
+    },
+    "Findie": {
+        "ID": 26,
+        "Name": "Findie",
+        "TourDuration": 10,
+        "EducationalValue": 58,
+        "VisitorAppeal": 73
+    },
+    "Nika": {
+        "ID": 27,
+        "Name": "Nika",
+        "TourDuration": 64,
+        "EducationalValue": 80,
+        "VisitorAppeal": 18
+    },
+    "Dunn": {
+        "ID": 28,
+        "Name": "Dunn",
+        "TourDuration": 64,
+        "EducationalValue": 20,
+        "VisitorAppeal": 78
+    },
+    "Old Goethe": {
+        "ID": 29,
+        "Name": "Old Goethe",
+        "TourDuration": 12,
+        "EducationalValue": 62,
+        "VisitorAppeal": 88
+    },
+    "Eunice": {
+        "ID": 30,
+        "Name": "Eunice",
+        "TourDuration": 94,
+        "EducationalValue": 86,
+        "VisitorAppeal": 0
+    },
+    "Svarog": {
+        "ID": 31,
+        "Name": "Svarog",
+        "TourDuration": 60,
+        "EducationalValue": 32,
+        "VisitorAppeal": 88
+    },
+    "Oleg": {
+        "ID": 32,
+        "Name": "Oleg",
+        "TourDuration": 18,
+        "EducationalValue": 80,
+        "VisitorAppeal": 82
     }
 }
