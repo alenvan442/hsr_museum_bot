@@ -1,7 +1,4 @@
-using System.Runtime.CompilerServices;
-using System.Collections;
 using DSharpPlus.Entities;
-using hsr_museum.src.main.model.utilities;
 using Newtonsoft.Json;
 
 namespace hsr_museum.src.main.model.structures
@@ -27,7 +24,7 @@ namespace hsr_museum.src.main.model.structures
             this.UID = ID;
             this.name = Name;
 
-            loadInventory();
+            loadEvent();
         }
 
         /// <summary>
@@ -37,6 +34,15 @@ namespace hsr_museum.src.main.model.structures
         public Player(DiscordMember member) {
             this.UID = member.Id;
             this.name = member.Username;
+        }
+
+        private void loadEvent() { 
+
+        }
+
+        public void switchEvent(Events newEvent) {
+
+            loadEvent();
         }
 
         /// <summary>

@@ -1,0 +1,34 @@
+{
+    "Lettuce": {
+        "ID": 131073,
+        "Name": "🥬Lettuce",
+        "SeedName": "🥬Lettuce Seeds",
+        "SeedID": 65537,
+        "BuyPrice": 0.00,
+        "SellPrice": 3.50
+    },
+    "Cucumber": {
+        "ID": 131074,
+        "Name": "🥒Cucumber",
+        "SeedName": "🥒Cucumber Seeds",
+        "SeedID": 65538,
+        "BuyPrice": 0.00,
+        "SellPrice": 2.00
+    },
+    "Corn": {
+        "ID": 131075,
+        "Name": "🌽Corn",
+        "SeedName": "🌽Corn Seeds",
+        "SeedID": 65539,
+        "BuyPrice": 0.00,
+        "SellPrice": 4.00
+    },
+    "Carrot": {
+        "ID": 131076,
+        "Name": "🥕Carrot",
+        "SeedName": "🥕Carrot Seeds",
+        "SeedID": 65540,
+        "BuyPrice": 0.00,
+        "SellPrice": 60.0
+    }
+}

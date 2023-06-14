@@ -1,6 +1,8 @@
 using DSharpPlus.Entities;
 using hsr_museum.src.main.model.persistence;
 using hsr_museum.src.main.model.structures;
+using hsr_museum.src.main.model.structures.items.museum_event;
+using hsr_museum_bot.hsr_museum.src.main.controller;
 
 namespace hsr_museum.src.main.controller
 {
@@ -8,34 +10,25 @@ namespace hsr_museum.src.main.controller
     /// This controller will receive information from the view and either add, delete, or update a player accordingly
     /// The main purpose of this controller is to receive and delegate tasks that involves the creation or deletion of a player
     /// </summary>
-    public class PlayerController
+    public class PlayerController: ObjectController<Player>
     {
         PlayersFileDAO playersFileDAO;
+        ObjectFileDAO<Events> eventsFileDAO;
+        ObjectFileDAO<Employee> employeeFileDAO;
+        ObjectFileDAO<Exhibition> exhibitionFileDAO;
 
         /// <summary>
         /// Constructor for the player controller
         /// Utilizes the player DAO
         /// </summary>
         /// <param name="playersFileDAO"> A class that holds methods that correspond with the manipulation of data with players </param>
-        public PlayerController(PlayersFileDAO playersFileDAO) {
+        public PlayerController(PlayersFileDAO playersFileDAO, ObjectFileDAO<Events> eventsDAO,
+                                    ObjectFileDAO<Employee> employeeDAO, ObjectFileDAO<Exhibition> exDAO):
+                                    base(playersFileDAO) {
             this.playersFileDAO = playersFileDAO;
-        }
-
-        /// <summary>
-        /// Retrieves a player from the database given an ID
-        /// </summary>
-        /// <param name="UID"> The ID of the player to look for </param>
-        /// <returns> The retrieved player </returns>
-        public Player getPlayer(ulong UID) {
-            return playersFileDAO.getPlayer(UID);
-        }
-
-        /// <summary>
-        /// Retrieves all of the players in the database
-        /// </summary>
-        /// <returns> An array of all of the players </returns>
-        public Player[] getPlayers() {
-            return playersFileDAO.getPlayers();
+            this.eventsFileDAO = eventsDAO;
+            this.employeeFileDAO = employeeDAO;
+            this.exhibitionFileDAO = exDAO;
         }
 
         /// <summary>
@@ -45,15 +38,13 @@ namespace hsr_museum.src.main.controller
         /// <returns> A boolean indicating whether or not the action was successful </returns>
         public Boolean addPlayer(DiscordMember member) {
             return playersFileDAO.addPlayer(member);
-        } 
+        }
 
-        /// <summary>
-        /// Deletes a user's data based on the given ID
-        /// </summary>
-        /// <param name="UID"> The ID of the player to delete </param>
-        /// <returns> A boolean indicating whether or not the action was successful </returns>
-        public Boolean deletePlayer(ulong UID) {
-            return playersFileDAO.deletePlayer(UID);
+        public void switchEvent(ulong id, int option) {
+            Events newEvent = this.eventsFileDAO.getObject((ulong)option);
+            Player player = this.playersFileDAO.getObject(id);
+            player.switchEvent(newEvent);
+            this.playersFileDAO.addObject(player, player.UID);
         }
 
     }

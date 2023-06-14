@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace hsr_museum_bot.hsr_museum.src.main.model.structures.items.museum_event
+namespace hsr_museum.src.main.model.structures.items.museum_event
 {
     public class Employee
     {
