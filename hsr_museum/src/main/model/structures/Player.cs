@@ -27,7 +27,6 @@ namespace hsr_museum.src.main.model.structures
             this.UID = ID;
             this.name = Name;
 
-
             loadInventory();
         }
 
