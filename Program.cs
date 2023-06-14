@@ -1,2 +1,14 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using System;
+using hsr_museum.src.main;
+
+namespace hsr_museum
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Bot bot = new Bot();
+            bot.RunAsync().GetAwaiter().GetResult();
+        }
+    }
+}

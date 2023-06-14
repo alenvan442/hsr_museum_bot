@@ -6,11 +6,12 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
+using hsr_museum.src.main.model.utilities;
 
 /// <summary>
 /// This is the class that holds the Discord Bot configuration
 /// </summary>
-namespace hsr_museum_bot.src.main
+namespace hsr_museum.src.main
 {
     public class Bot
     {

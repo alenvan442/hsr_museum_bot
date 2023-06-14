@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/sobdh/hsr_museum_bot/hsr_museum_bot.csproj": {}
+    "/Users/sobdh/Projects/hsr_museum_bot/hsr_museum_bot.csproj": {}
   },
   "projects": {
-    "/Users/sobdh/hsr_museum_bot/hsr_museum_bot.csproj": {
+    "/Users/sobdh/Projects/hsr_museum_bot/hsr_museum_bot.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/sobdh/hsr_museum_bot/hsr_museum_bot.csproj",
+        "projectUniqueName": "/Users/sobdh/Projects/hsr_museum_bot/hsr_museum_bot.csproj",
         "projectName": "hsr_museum_bot",
-        "projectPath": "/Users/sobdh/hsr_museum_bot/hsr_museum_bot.csproj",
+        "projectPath": "/Users/sobdh/Projects/hsr_museum_bot/hsr_museum_bot.csproj",
         "packagesPath": "/Users/sobdh/.nuget/packages/",
-        "outputPath": "/Users/sobdh/hsr_museum_bot/obj/",
+        "outputPath": "/Users/sobdh/Projects/hsr_museum_bot/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/sobdh/.nuget/NuGet/NuGet.Config"

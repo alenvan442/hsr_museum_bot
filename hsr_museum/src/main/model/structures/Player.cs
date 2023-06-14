@@ -51,8 +51,7 @@ namespace hsr_museum.src.main.model.structures
         public override string ToString() {
 
             String result = "";
-            result += "\nUsername: " + this.name + "\n\n";
-            result += "Balance: " + this.balance;
+            result += "\nUsername: " + this.name;
 
             return result;
         }

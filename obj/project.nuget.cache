@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "AcSg3Tn1gwhuPQcvd1o7RysHBa/pzrUG/nr7TJR2+NPYx6+4zYKkNQdjmHaGu3z2cRlztZk45bva1ZfwkYYilQ==",
+  "dgSpecHash": "IeE/Qc+vjrM1bctEbrFDE4MAd40aJIr5OLp9OK5jaHVj5fdjjH++IzN58f/SVnsPTBz39i4AEeqA+mgKgXwx/w==",
   "success": true,
-  "projectFilePath": "/Users/sobdh/hsr_museum_bot/hsr_museum_bot.csproj",
+  "projectFilePath": "/Users/sobdh/Projects/hsr_museum_bot/hsr_museum_bot.csproj",
   "expectedPackageFiles": [
     "/Users/sobdh/.nuget/packages/concurrenthashset/1.3.0/concurrenthashset.1.3.0.nupkg.sha512",
     "/Users/sobdh/.nuget/packages/dsharpplus/5.0.0/dsharpplus.5.0.0.nupkg.sha512",

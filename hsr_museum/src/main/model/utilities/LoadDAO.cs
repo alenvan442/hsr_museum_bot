@@ -7,7 +7,6 @@ namespace hsr_museum.src.main.model.utilities
 {
     public static class LoadDAO
     {
-
         static PlayersFileDAO? playersFileDAO;
         static PlayerController? playerController;
 
