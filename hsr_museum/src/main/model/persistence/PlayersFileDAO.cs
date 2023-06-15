@@ -1,5 +1,6 @@
 using DSharpPlus.Entities;
 using hsr_museum.src.main.model.structures;
+using hsr_museum.src.main.model.structures.items.museum_event;
 using hsr_museum.src.main.model.utilities;
 
 namespace hsr_museum.src.main.model.persistence

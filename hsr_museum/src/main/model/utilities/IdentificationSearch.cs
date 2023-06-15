@@ -23,11 +23,11 @@ namespace hsr_museum.src.main.model.utilities
             eventsFileDAO = eventsDAO;
         }
 
-        private static Employee employeeSearch(uint id) {
+        public static Employee employeeSearch(uint id) {
             return employeesFileDAO.getObject(id);
         }
 
-        private static Exhibition exhibitionSearch(uint id) {
+        public static Exhibition exhibitionSearch(uint id) {
             return exhibitionsFileDAO.getObject(id);
         }
 

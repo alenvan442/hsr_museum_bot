@@ -1,4 +1,5 @@
 using System.Globalization;
+using DSharpPlus.Interactivity;
 using Newtonsoft.Json;
 
 namespace hsr_museum.src.main.model.structures.items.museum_event
@@ -6,25 +7,25 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
     public class Exhibition
     {
         [JsonProperty("ID")]
-        public ulong id { get; private set; }
+        public uint id { get; private set; }
         [JsonProperty("Name")]
         public string name { get; private set; }
         [JsonProperty("BaseStats")]
         public uint[][] baseStats { get; private set; }
         [JsonProperty("Level")]
-        public uint level { get; private set; }
+        public int level { get; private set; }
         [JsonProperty("TourDurations")]
         public uint[] tourDurations { get; private set; }
         [JsonProperty("TourDurationLevel")]
-        public uint tourDurationLevel { get; private set; }
+        public int tourDurationLevel { get; private set; }
         [JsonProperty("EducationalValues")]
         public uint[] educationalValues { get; private set; }
         [JsonProperty("EducationalValueLevel")]
-        public uint educationalValueLevel { get; private set; }
+        public int educationalValueLevel { get; private set; }
         [JsonProperty("VisitorAppeals")]
         public uint[] visitorAppeals { get; private set; }
         [JsonProperty("VisitorAppealLevel")]
-        public uint visitorAppealLevel { get; private set; }
+        public int visitorAppealLevel { get; private set; }
         public Employee[] employees { get; private set; }
 
         /// <summary>
@@ -40,9 +41,9 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
         /// <param name="visitorAppeal">parameter 3's capacity</param>
         /// <param name="visitorAppealLevel">parameter 3's level</param>
         [JsonConstructor]
-        public Exhibition(ulong ID, string Name, uint[][] BaseStats, uint Level, uint[] TourDurations, uint TourDurationLevel,
-                            uint[] EducationalValues, uint EducationalValueLevel, uint[] VisitorAppeals,
-                            uint VisitorAppealLevel) {
+        public Exhibition(uint ID, string Name, uint[][] BaseStats, int Level, uint[] TourDurations, int TourDurationLevel,
+                            uint[] EducationalValues, int EducationalValueLevel, uint[] VisitorAppeals,
+                            int VisitorAppealLevel) {
 
             this.id = ID;
             this.name = Name;
@@ -64,17 +65,17 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
         /// constructor where it initializes the exhibition
         /// </summary>
         /// <param name="exhibition">the level 1 exhibition to create</param>
-        public Exhibition(Exhibition exhibition) {
+        public Exhibition(Exhibition exhibition, int[]? parameters = null) {
             this.id = exhibition.id;
             this.name = exhibition.name;
             this.baseStats = exhibition.baseStats;
-            this.level = 1;
+            this.level = (parameters != null && parameters[0] != 0 ? parameters[0] : 1);
             this.tourDurations = exhibition.tourDurations;
-            this.tourDurationLevel = 1;
+            this.tourDurationLevel = (parameters != null && parameters[1] != 0 ? parameters[1] : 1);
             this.educationalValues = exhibition.educationalValues;
-            this.educationalValueLevel = 1;
+            this.educationalValueLevel = (parameters != null && parameters[2] != 0 ? parameters[2] : 1);
             this.visitorAppeals = exhibition.visitorAppeals;
-            this.visitorAppealLevel = 1;
+            this.visitorAppealLevel = (parameters != null && parameters[3] != 0 ? parameters[3] : 1);
             this.employees = new Employee[3];
         }
 
@@ -86,7 +87,7 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
         /// <param name="option">the select of which level to set</param>
         /// <param name="level">what level to set the parameter to</param>
         /// <returns>boolean to indicate if the passed in option was appropriate</returns>
-        public bool setLevel(int option, uint level) {
+        public bool setLevel(int option, int level) {
             switch (option) { 
                 case 1:
                     this.level = level;

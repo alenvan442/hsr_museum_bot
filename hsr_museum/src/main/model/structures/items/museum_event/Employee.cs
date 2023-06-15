@@ -5,7 +5,7 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
     public class Employee
     {
         [JsonProperty("ID")]
-        public ulong id { get; private set; }
+        public uint id { get; private set; }
         [JsonProperty("Name")]
         public string name { get; private set; }
         [JsonProperty("TourDuration")]
@@ -24,7 +24,7 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
         /// <param name="educationalValue">parameter 2's value</param>
         /// <param name="visitorAppeal">parameter 3's value</param>
         [JsonConstructor]
-        public Employee(ulong id, string name, uint tourDuration,
+        public Employee(uint id, string name, uint tourDuration,
                             uint educationalValue, uint visitorAppeal) {
 
             this.id = id;

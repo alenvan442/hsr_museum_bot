@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using hsr_museum.src.main.model.persistence;
+using hsr_museum.src.main.model.structures;
 
 namespace hsr_museum_bot.hsr_museum.src.main.controller
 {
@@ -33,6 +34,14 @@ namespace hsr_museum_bot.hsr_museum.src.main.controller
             return objectFileDAO.getObjects();
         }
 
+        public T[] getObjectsDifference(T[] owned) {
+            List<T> all = getObjects().ToList();
+            foreach (T i in owned) {
+                if (all.Contains(i)) { all.Remove(i); }
+            }
+            return all.ToArray();
+        }
+
         /// <summary>
         /// Adds a new player to the database
         /// </summary>
@@ -51,6 +60,10 @@ namespace hsr_museum_bot.hsr_museum.src.main.controller
         public Boolean deletePlayer(ulong UID)
         {
             return objectFileDAO.deleteObject(UID);
+        }
+
+        public void save() {
+            objectFileDAO.save();
         }
 
     }

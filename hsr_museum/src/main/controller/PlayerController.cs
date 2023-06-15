@@ -40,11 +40,41 @@ namespace hsr_museum.src.main.controller
             return playersFileDAO.addPlayer(member);
         }
 
+        /*
         public void switchEvent(ulong id, int option) {
             Events newEvent = this.eventsFileDAO.getObject((ulong)option);
             Player player = this.playersFileDAO.getObject(id);
             player.switchEvent(newEvent);
             this.playersFileDAO.addObject(player, player.UID);
+        }
+        */
+
+        public Boolean hireEmployee(uint id, int index, Employee[] employees) {
+            Player player = getObject(id);
+            Boolean result = player.hireEmployee(employees[index]);
+            if(result) { addObject(player, id); } //saves
+            return result;
+        }
+
+        public Boolean removeEmployee(uint id, int index, Employee[] employees) {
+            Player player = getObject(id);
+            Boolean result = player.removeEmployee(employees[index]);
+            if (result) { addObject(player, id); } //saves
+            return result;
+        }
+
+        public Boolean addExhibition(uint id, int index, Exhibition[] exhibitions) {
+            Player player = getObject(id);
+            Boolean result = player.addExhibition(exhibitions[index]);
+            if (result) { addObject(player, id); } //saves
+            return result;
+        }
+
+        public Boolean removeExhibition(uint id, int index, Exhibition[] exhibitions) {
+            Player player = getObject(id);
+            Boolean result = player.removeExhibition(exhibitions[index]);
+            if (result) { addObject(player, id); } //saves
+            return result;
         }
 
     }
