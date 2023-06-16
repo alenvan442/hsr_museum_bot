@@ -62,9 +62,5 @@ namespace hsr_museum_bot.hsr_museum.src.main.controller
             return objectFileDAO.deleteObject(UID);
         }
 
-        public void save() {
-            objectFileDAO.save();
-        }
-
     }
 }

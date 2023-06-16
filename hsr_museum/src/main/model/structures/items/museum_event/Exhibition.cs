@@ -1,5 +1,3 @@
-using System.Globalization;
-using DSharpPlus.Interactivity;
 using Newtonsoft.Json;
 
 namespace hsr_museum.src.main.model.structures.items.museum_event
@@ -148,7 +146,7 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
             if (currVals[1] < capVals[1]) { numberLess += 1; }
             if (currVals[2] < capVals[2]) { numberLess += 1; }
 
-            return Math.Pow(numberLess, 50);
+            return -1 * Math.Pow(numberLess, 50);
         }
 
         /// <summary>
@@ -172,6 +170,26 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
             return result;
         }
 
+        public uint[] getEmployeeValue(int option) {
+            uint[] result = new uint[3];
+            if (option < 1 || option > 3) { return null; }
+
+            foreach (Employee i in this.employees) {
+                switch (option) {
+                    case 1:
+                        result[result.Count()] = i.tourDuration;
+                        break;
+                    case 2:
+                        result[result.Count()] = i.educationalValue;
+                        break;
+                    case 3:
+                        result[result.Count()] = i.visitorAppeal;
+                        break;
+                }
+            }
+            return result;
+        }
+
         private uint[] exValues() {
             uint[] result = new uint[3];
             uint[] currBaseStat = this.baseStats[this.level];
@@ -181,6 +199,32 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
             result[2] = currBaseStat[2] + this.visitorAppeals[this.visitorAppealLevel];
 
             return result;
+        }
+
+        public Boolean addEmployee(Employee employee) { 
+            if(this.employees.Count() >= 3) {
+                return false;
+            } else {
+                this.employees[this.employees.Count()] = employee;
+                return true;
+            }
+        }
+
+        public Employee removeEmployee(Employee employee) {
+            List<Employee> currEmployees = this.employees.ToList();
+            if (!currEmployees.Contains(employee)) {
+                return null;
+            } else {
+                currEmployees.Remove(employee);
+                this.employees = currEmployees.ToArray();
+                return employee;
+            }
+        }
+
+        public void clearEmployees() {
+            for (int i = 0; i > this.employees.Count(); i++) {
+                this.employees[i] = null;
+            }
         }
 
     }
