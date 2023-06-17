@@ -13,7 +13,7 @@ namespace hsr_museum.src.main.model.structures
     {
 
         [JsonProperty("ID")]
-        public ulong UID { get; private set; }
+        public ulong id { get; private set; }
         [JsonProperty("Name")]
         public string name { get; private set; }
         [JsonProperty("Employees")]
@@ -31,7 +31,7 @@ namespace hsr_museum.src.main.model.structures
         /// <param name="Name">the associated name of the player</param>       
         [JsonConstructor]
         public Player(ulong ID, string Name, Dictionary<uint, string> Employees, Dictionary<uint, int[]> Exhibitions) {
-            this.UID = ID;
+            this.id = ID;
             this.name = Name;
             this.employeesId = Employees;
             this.exhibitionsId = Exhibitions;
@@ -44,7 +44,7 @@ namespace hsr_museum.src.main.model.structures
         /// Give them the first plant pot for free
         /// </summary>
         public Player(DiscordMember member) {
-            this.UID = member.Id;
+            this.id = member.Id;
             this.name = member.Username;
         }
 
@@ -115,6 +115,14 @@ namespace hsr_museum.src.main.model.structures
                 Exhibition myExhibit = this.exhibitions[exhibit.id];
                 return myExhibit.setLevel(option, level);
             }
+        }
+
+        public Employee[] getEmployees() {
+            return this.employees.Values.ToArray();
+        }
+
+        public Exhibition[] getExhibitions() {
+            return this.exhibitions.Values.ToArray();
         }
 
         /// <summary>

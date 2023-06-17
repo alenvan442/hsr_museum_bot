@@ -49,42 +49,42 @@ namespace hsr_museum.src.main.controller
         }
         */
 
-        public Boolean hireEmployee(uint id, int index, Employee[] employees) {
+        public Boolean hireEmployee(ulong id, int index, Employee[] employees) {
             Player player = getObject(id);
             Boolean result = player.hireEmployee(employees[index]);
             if (result) { addObject(player, id); } //saves
             return result;
         }
 
-        public Boolean removeEmployee(uint id, int index, Employee[] employees) {
+        public Boolean removeEmployee(ulong id, int index, Employee[] employees) {
             Player player = getObject(id);
             Boolean result = player.removeEmployee(employees[index]);
             if (result) { addObject(player, id); } //saves
             return result;
         }
 
-        public Boolean addExhibition(uint id, int index, Exhibition[] exhibitions) {
+        public Boolean addExhibition(ulong id, int index, Exhibition[] exhibitions) {
             Player player = getObject(id);
             Boolean result = player.addExhibition(exhibitions[index]);
             if (result) { addObject(player, id); } //saves
             return result;
         }
 
-        public Boolean removeExhibition(uint id, int index, Exhibition[] exhibitions) {
+        public Boolean removeExhibition(ulong id, int index, Exhibition[] exhibitions) {
             Player player = getObject(id);
             Boolean result = player.removeExhibition(exhibitions[index]);
             if (result) { addObject(player, id); } //saves
             return result;
         }
 
-        public Boolean upgradeExhibition(uint id, int index, Exhibition[] exhibitions, int option, int level) {
+        public Boolean upgradeExhibition(ulong id, int index, Exhibition[] exhibitions, int option, int level) {
             Player player = getObject(id);
             Boolean result = player.setExhibitionLevel(exhibitions[index], option, level);
             if (result) { addObject(player, id); }
             return result;
         }
 
-        public Exhibition[] calc(uint id) {
+        public Exhibition[] calc(ulong id) {
             return getObject(id).calc();
         }
 
