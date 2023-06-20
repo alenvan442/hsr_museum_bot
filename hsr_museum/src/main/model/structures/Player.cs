@@ -46,6 +46,8 @@ namespace hsr_museum.src.main.model.structures
         public Player(DiscordMember member) {
             this.id = member.Id;
             this.name = member.Username;
+            this.employeesId = new Dictionary<uint, string>();
+            this.exhibitionsId = new Dictionary<uint, int[]>();
         }
 
         private void loadEvent() {
@@ -103,7 +105,7 @@ namespace hsr_museum.src.main.model.structures
                 return false;
             } else {
                 this.employees.Remove(toRemove.id);
-                this.employees.Remove(toRemove.id);
+                this.employeesId.Remove(toRemove.id);
                 return true;
             }
         }
@@ -138,20 +140,64 @@ namespace hsr_museum.src.main.model.structures
         /// <param name="desc">which direction we sort, defaulted to descending</param>
         /// <returns>the sorted list</returns>
         private Employee[] sort(Employee[] employees, int option = 0, Boolean desc = true) {
-            Employee[] result = new Employee[employees.Count()];
-            switch (option) {
-                case 0:
+            Employee[] firstHalf = new Employee[employees.Count() / 2];
+            Array.Copy(
+                this.sort(employees, option, desc),
+                0, 
+                firstHalf, 0, 
+                employees.Count() / 2);
+            Employee[] secondHalf = new Employee[employees.Count() - (employees.Count() / 2)];
+            Array.Copy(
+                this.sort(employees, option, desc),
+                (employees.Count() / 2) + 1,
+                secondHalf, 0, 
+                (employees.Count() - (employees.Count() / 2)));
+
+            Employee[] sorted = new Employee[employees.Count()];
+
+            int firstIndex = 0;
+            int secondIndex = 0;
+            int descending = desc ? 1 : -1;
+            for (int i = 0; i < employees.Count(); i++) {
+
+                //if the first half has been used up, add the rest of the second half
+                if (firstIndex > firstHalf.Count()) {
+                    while (secondIndex < secondHalf.Count()) {
+                        sorted[i] = secondHalf[secondIndex];
+                        secondIndex++;
+                        i++;
+                    }
                     break;
-                case 1:
+                }
+
+                //if the second half has been used up, add the rest of the first half
+                if (secondIndex > secondHalf.Count()) {
+                    while (firstIndex < firstHalf.Count()) {
+                        sorted[i] = firstHalf[firstIndex];
+                        firstIndex++;
+                        i++;
+                    }
                     break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                default:
-                    break;
+                }
+
+                //compare and add
+                int compareResult = (descending) * firstHalf[firstIndex].compareTo(secondHalf[secondIndex], option);
+                if (compareResult > 1) {
+                    sorted[i] = firstHalf[firstIndex];
+                    firstIndex++;
+                } else if (compareResult < 1) {
+                    sorted[i] = secondHalf[secondIndex];
+                    secondIndex++;
+                } else {
+                    sorted[i] = firstHalf[firstIndex];
+                    firstIndex++;
+                    i++;
+                    sorted[i] = secondHalf[secondIndex];
+                    secondIndex++;
+                }
             }
-            return result;
+
+            return sorted;
         }
 
         public Exhibition[] calc() {

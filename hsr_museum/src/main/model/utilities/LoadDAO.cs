@@ -3,6 +3,8 @@ using hsr_museum.src.main.controller;
 using hsr_museum.src.main.model.persistence;
 using hsr_museum.src.main.model.structures;
 using hsr_museum.src.main.model.structures.items.museum_event;
+using hsr_museum.src.main.view.discord.commands;
+using hsr_museum_bot.hsr_museum.src.main.controller;
 
 namespace hsr_museum.src.main.model.utilities
 {
@@ -13,6 +15,8 @@ namespace hsr_museum.src.main.model.utilities
         static ObjectFileDAO<Events>? eventsFileDAO;
         static ObjectFileDAO<Employee>? employeeFileDAO;
         static ObjectFileDAO<Exhibition>? exhibitionFileDAO;
+        static ObjectController<Employee>? employeeController;
+        static ObjectController<Exhibition>? exhibitionController;
 
         /// <summary>
         /// Loads the FileDAOs
@@ -22,8 +26,17 @@ namespace hsr_museum.src.main.model.utilities
             eventsFileDAO = new ObjectFileDAO<Events>(StaticUtil.eventsJson, json);
             employeeFileDAO = new ObjectFileDAO<Employee>(StaticUtil.employeeJson, json);
             exhibitionFileDAO = new ObjectFileDAO<Exhibition>(StaticUtil.exhibitionJson, json);
+            
+            IdentificationSearch.init(employeeFileDAO, exhibitionFileDAO, null);
+
             playersFileDAO = new PlayersFileDAO(StaticUtil.playersJson, json);
-            playerController = new PlayerController(playersFileDAO, eventsFileDAO, employeeFileDAO, exhibitionFileDAO);            
+
+            playerController = new PlayerController(playersFileDAO, eventsFileDAO, employeeFileDAO, exhibitionFileDAO);
+            employeeController = new ObjectController<Employee>(employeeFileDAO);
+            exhibitionController = new ObjectController<Exhibition>(exhibitionFileDAO);
+
+            CommandsHelper.setup(playerController, employeeController, exhibitionController);
+            
         }
 
         /// <summary>

@@ -50,5 +50,43 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
             this.visitorAppeal = employee.visitorAppeal;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj">the other object we are comparing to</param>
+        /// <param name="option">what parameter we are comapring</param>
+        /// <returns>
+        /// Positive Integer: this is larger than the other
+        /// 0               : the two are the exact same
+        /// Negative Integer: this is lesser than the other
+        /// </returns>
+        public int compareTo(object obj, int option) {
+            if (obj != null || GetType() != obj.GetType()) {
+                return 0;
+            } else { 
+                Employee other = (Employee)obj;
+                switch (option) { 
+                    case 0: //total
+                        uint thisTotal = this.tourDuration + this.educationalValue + this.visitorAppeal;
+                        uint otherTotal = other.tourDuration + other.educationalValue + other.visitorAppeal;
+                        return (int)thisTotal - (int)otherTotal;
+                    case 1: //tourDuration
+                        return (int)this.tourDuration - (int)other.tourDuration;
+                    case 2: //educationalValue
+                        return (int)this.educationalValue - (int)other.educationalValue;
+                    case 3: //visitorAppeal
+                        return (int)this.visitorAppeal - (int)other.visitorAppeal;
+                    default:
+                        return 0;
+                }
+            }
+        }
+
+        public override string ToString()
+        {
+            string result = this.name + " " + this.tourDuration + " " + this.educationalValue + " " + this.visitorAppeal;
+            return result;
+        }
+
     }
 }

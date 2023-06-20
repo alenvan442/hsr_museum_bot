@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using hsr_museum.src.main.model.utilities;
 
@@ -51,7 +52,7 @@ namespace hsr_museum.src.main.model.persistence
         /// Retrieves a specific player based on their UID
         /// </summary>
         /// <param name="UID"> The UID of the player to be receieved </param>
-        /// <returns> The player associated with the UID, null if not found </returns>
+        /// /// <returns> The player associated with the UID, null if not found </returns>
         public T getObject(ulong id)
         {
             T result;
@@ -74,8 +75,9 @@ namespace hsr_museum.src.main.model.persistence
         /// </summary>
         /// <param name="member"> The discord member to add </param>
         /// <returns> A boolean to indicate whether or not the player was successfully created </returns>
-        public void addObject(T obj, ulong id) {
-            this.data.Add(id, obj);
+        public void addObject(T obj, ulong id)
+        {
+            this.data[id] = obj;
             save();
         }
 

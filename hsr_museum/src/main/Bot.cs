@@ -7,6 +7,7 @@ using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
 using hsr_museum.src.main.model.utilities;
+using hsr_museum.src.main.view.discord.commands;
 
 /// <summary>
 /// This is the class that holds the Discord Bot configuration
@@ -53,7 +54,7 @@ namespace hsr_museum.src.main
 
             //set the commands of the bot
             commands = client.UseCommandsNext(commandConfig);
-            //commands.RegisterCommands<Menu>();
+            commands.RegisterCommands<MuseumCommands>();
             //commands.RegisterCommands<Farming>();
             //commands.RegisterCommands<Shop>();
 

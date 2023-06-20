@@ -86,6 +86,8 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
         /// <param name="level">what level to set the parameter to</param>
         /// <returns>boolean to indicate if the passed in option was appropriate</returns>
         public bool setLevel(int option, int level) {
+            //TODO check for max levels
+            //TODO offset levels by -1 due to the starting level being 1
             switch (option) { 
                 case 1:
                     this.level = level;
@@ -227,5 +229,28 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
             }
         }
 
+        public override bool Equals(object? obj)
+        {
+            if (obj is Exhibition) {
+                Exhibition other = (Exhibition)obj;
+                return this.id == other.id;
+            } else {
+                return false;
+            }
+        }
+
+        public override string ToString()
+        {
+            string result = this.name + "\n";
+            result += "Employees:\n";
+            foreach (Employee i in this.employees) {
+                if (i is null) {
+                    continue;
+                }
+                result += "\t" + i.ToString() + "\n";
+            }
+
+            return result;
+        }
     }
 }

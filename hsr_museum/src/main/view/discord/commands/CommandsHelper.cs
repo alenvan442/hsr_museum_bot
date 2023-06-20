@@ -29,7 +29,10 @@ namespace hsr_museum.src.main.view.discord.commands
         }
 
         public static DiscordEmbed createEmbed(string message) {
-            return null;
+            DiscordEmbedBuilder embed = new DiscordEmbedBuilder {
+                Description = message
+            };
+            return embed;
         }
 
     }
