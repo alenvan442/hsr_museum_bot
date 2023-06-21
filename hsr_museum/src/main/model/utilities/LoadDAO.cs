@@ -45,7 +45,8 @@ namespace hsr_museum.src.main.model.utilities
         /// </summary>
         /// <param name="guild"> The guild that was recently connected to </param>
         public async static void addPlayers(DiscordGuild guild) {
-            foreach(DiscordMember i in await guild.GetAllMembersAsync()) {
+            var members = await guild.GetAllMembersAsync();
+            foreach(DiscordMember i in members) {
                 playersFileDAO.addPlayer(i);
             }
         } 
