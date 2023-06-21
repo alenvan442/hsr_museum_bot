@@ -7,34 +7,49 @@
       "1": "Natasha",
       "2": "Hook",
       "3": "Bronya",
-      "4": "Seele",
       "6": "Serval",
-      "8": "Gepard"
+      "5": "Clara",
+      "9": "Amo",
+      "10": "Elaine",
+      "11": "Serval's Fanatic Fan",
+      "12": "Lila",
+      "13": "Gilbert",
+      "14": "Julian",
+      "15": "Fersman",
+      "16": "Peak",
+      "17": "Cunning Child",
+      "18": "Rossy",
+      "19": "Perkins",
+      "20": "Gertie",
+      "21": "Fidora",
+      "22": "Eric",
+      "23": "Manya",
+      "24": "Wallace"
     },
     "Exhibitions": {
       "3": [
-        1,
-        1,
-        1,
-        1
+        2,
+        5,
+        4,
+        4
       ],
       "1": [
-        1,
-        1,
-        1,
-        1
+        7,
+        7,
+        9,
+        7
       ],
       "2": [
-        1,
-        1,
-        1,
-        1
+        4,
+        3,
+        3,
+        4
       ],
       "0": [
-        1,
-        1,
-        1,
-        1
+        11,
+        14,
+        13,
+        13
       ]
     }
   },

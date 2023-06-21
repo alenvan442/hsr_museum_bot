@@ -88,5 +88,15 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
             return result;
         }
 
+        public override bool Equals(object? obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) {
+                return false;
+            } else {
+                Employee other = (Employee)obj;
+                return this.id.Equals(other.id);
+            }
+        }
+
     }
 }

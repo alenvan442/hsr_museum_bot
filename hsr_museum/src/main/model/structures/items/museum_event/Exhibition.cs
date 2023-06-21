@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace hsr_museum.src.main.model.structures.items.museum_event
 {
-    public class Exhibition
+    public class Exhibition: IComparable
     {
         [JsonProperty("ID")]
         public uint id { get; private set; }
@@ -148,7 +148,7 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
             if (currVals[1] < capVals[1]) { numberLess += 1; }
             if (currVals[2] < capVals[2]) { numberLess += 1; }
 
-            return -1 * Math.Pow(numberLess, 50);
+            return -1 * numberLess;
         }
 
         /// <summary>
@@ -169,6 +169,11 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
                 result[1] += employee.educationalValue;
                 result[2] += employee.visitorAppeal;
             }
+
+            result[0] += this.tourDurations[this.tourDurationLevel - 1];
+            result[1] += this.educationalValues[this.educationalValueLevel - 1];
+            result[2] += this.visitorAppeals[this.visitorAppealLevel - 1];
+
             return result;
         }
 
@@ -193,14 +198,7 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
         }
 
         public uint[] exValues() {
-            uint[] result = new uint[3];
-            uint[] currBaseStat = this.baseStats[this.level - 1];
-
-            result[0] = currBaseStat[0] + this.tourDurations[this.tourDurationLevel - 1];
-            result[1] = currBaseStat[1] + this.educationalValues[this.educationalValueLevel - 1];
-            result[2] = currBaseStat[2] + this.visitorAppeals[this.visitorAppealLevel - 1];
-
-            return result;
+            return this.baseStats[this.level - 1];
         }
 
         public uint totalBaseValue() {
@@ -234,24 +232,10 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
         {
             if (obj is Exhibition) {
                 Exhibition other = (Exhibition)obj;
-                return this.id == other.id;
+                return this.id.Equals(other.id);
             } else {
                 return false;
             }
-        }
-
-        public override string ToString()
-        {
-            string result = this.name + "\n";
-            result += "Employees:\n";
-            foreach (Employee i in this.employees) {
-                if (i is null) {
-                    continue;
-                }
-                result += "\t" + i.ToString() + "\n";
-            }
-
-            return result;
         }
 
         public int CompareTo(object? obj)

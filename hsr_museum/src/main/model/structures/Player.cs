@@ -115,7 +115,14 @@ namespace hsr_museum.src.main.model.structures
                 return false;
             } else {
                 Exhibition myExhibit = this.exhibitions[exhibit.id];
-                return myExhibit.setLevel(option, level);
+                bool result = myExhibit.setLevel(option, level);
+
+                this.exhibitionsId[exhibit.id][0] = myExhibit.level;
+                this.exhibitionsId[exhibit.id][1] = myExhibit.tourDurationLevel;
+                this.exhibitionsId[exhibit.id][2] = myExhibit.educationalValueLevel;
+                this.exhibitionsId[exhibit.id][3] = myExhibit.visitorAppealLevel;
+
+                return result;
             }
         }
 
@@ -124,8 +131,25 @@ namespace hsr_museum.src.main.model.structures
         }
 
         public Exhibition[] getExhibitions() {
-            return this.exhibitions.Values.ToArray();
+            return this.sortExhibition();
         }
+
+        public Exhibition[] sortExhibition() {
+            Exhibition[] result = new Exhibition[this.exhibitions.Count()];
+            List<Exhibition> current = this.exhibitions.Values.ToList();
+            for (int i = 0; i < this.exhibitions.Count(); i++) {
+                uint idLow = 100;
+                foreach (Exhibition ex in current) {
+                    if (ex.id < idLow) { 
+                        idLow = ex.id; 
+                    }
+                }
+                result[i] = this.exhibitions[idLow];
+                current.Remove(this.exhibitions[idLow]);
+            }
+            return result;
+        }
+
 
         /// <summary>
         /// Sorts the array of employees based on 4 aspects
@@ -209,8 +233,7 @@ namespace hsr_museum.src.main.model.structures
 
         public Exhibition[] calc() {
             List<Employee> currEmployees = this.employees.Values.ToList();
-            List<Exhibition> currExhibition = this.exhibitions.Values.ToList();
-            currExhibition.Sort();
+            List<Exhibition> currExhibition = this.sortExhibition().ToList();
 
             //sort based on total
             currEmployees = sortEmployee(currEmployees.ToArray()).ToList();
@@ -255,92 +278,118 @@ namespace hsr_museum.src.main.model.structures
                         //find the first employee that can reduce the negative offset, without reducing
                         //the positive offset below 0
                         //swap the employees if fouond
-                        for (int o = 0; o < offsets.Count(); o++) {
-                            if (offsets[o] < 0) {
+                        for (int o = 0; o < offsets.Count(); o++)
+                        {
+                            if (offsets[o] < 0)
+                            {
                                 currEmployees = sortEmployee(currEmployees.ToArray(), o + 1).ToList();
                                 List<Employee> exEmployees = sortEmployee(i.employees.ToArray(), o + 1, false).ToList();
 
-                                foreach (Employee j in currEmployees) {
-                                    int goodCount = 0;
-                                    //diff in terms of how much current exhibition wuld gain if we swap
-                                    int tourDiff = (int)j.tourDuration - (int)exEmployees[0].tourDuration;
-                                    int eduDiff = (int)j.educationalValue - (int)exEmployees[0].educationalValue;
-                                    int visiDiff = (int)j.visitorAppeal - (int)exEmployees[0].visitorAppeal;
+                                foreach (Employee j in currEmployees)
+                                {
+                                    foreach (Employee p in exEmployees)
+                                    {
+                                        int goodCount = 0;
+                                        //diff in terms of how much current exhibition wuld gain if we swap
+                                        int tourDiff = (int)j.tourDuration - (int)p.tourDuration;
+                                        int eduDiff = (int)j.educationalValue - (int)p.educationalValue;
+                                        int visiDiff = (int)j.visitorAppeal - (int)p.visitorAppeal;
 
-                                    //check if the new employee would benefit the exhibition more
-                                    //than hurt it, if so, swap them
-                                    switch (o) {
-                                        case 0:
-                                            if (tourDiff > 0) {
+                                        //check if the new employee would benefit the exhibition more
+                                        //than hurt it, if so, swap them
+                                        switch (o)
+                                        {
+                                            case 0:
+                                                if (tourDiff > 0)
+                                                {
 
-                                                if ((offsets[1] + eduDiff) > offsets[1] ||
-                                                        (offsets[1] + eduDiff) > 0) { goodCount += 1; }
+                                                    if ((offsets[1] + eduDiff) > offsets[1] ||
+                                                            (offsets[1] + eduDiff) > 0) { goodCount += 1; }
 
-                                                if ((offsets[2] + visiDiff) > offsets[2] ||
-                                                        (offsets[2] + visiDiff) > 0) { goodCount += 1; }
+                                                    if ((offsets[2] + visiDiff) > offsets[2] ||
+                                                            (offsets[2] + visiDiff) > 0) { goodCount += 1; }
 
-                                                if (goodCount > 0) {
-                                                    currEmployees.Add(i.removeEmployee(exEmployees[0]));
-                                                    i.addEmployee(j);
+                                                    if (goodCount == 2)
+                                                    {
+                                                        currEmployees.Add(i.removeEmployee(p));
+                                                        i.addEmployee(j);
+                                                        currEmployees.Remove(j);
+                                                    }
+
                                                 }
-
-                                            } else {
-                                                //our lowest value is larger than the unassigned
-                                                //employee's largest value, so we skip this 
-                                                //swap with unassinged employees
-                                                goodCount = -1;
-                                            }
-                                            break;
-                                        case 1:
-                                            if (eduDiff > 0) {
-
-                                                if ((offsets[0] + tourDiff) > offsets[0] ||
-                                                        (offsets[0] + tourDiff) > 0) { goodCount += 1; }
-
-                                                if ((offsets[2] + visiDiff) > offsets[2] ||
-                                                        (offsets[2] + visiDiff) > 0) { goodCount += 1; }
-
-                                                if (goodCount > 0) {
-                                                    currEmployees.Add(i.removeEmployee(exEmployees[0]));
-                                                    i.addEmployee(j);
+                                                else
+                                                {
+                                                    //our lowest value is larger than the unassigned
+                                                    //employee's largest value, so we skip this 
+                                                    //swap with unassinged employees
+                                                    goodCount = -1;
                                                 }
+                                                break;
+                                            case 1:
+                                                if (eduDiff > 0)
+                                                {
 
-                                            } else {
-                                                //our lowest value is larger than the unassigned
-                                                //employee's largest value, so we skip this 
-                                                //swap with unassinged employees
-                                                goodCount = -1;
-                                            }
-                                            break;
-                                        case 2:
-                                            if (visiDiff > 0) {
+                                                    if ((offsets[0] + tourDiff) > offsets[0] ||
+                                                            (offsets[0] + tourDiff) > 0) { goodCount += 1; }
 
-                                                if ((offsets[0] + tourDiff) > offsets[0] ||
-                                                        (offsets[0] + tourDiff) > 0) { goodCount += 1; }
+                                                    if ((offsets[2] + visiDiff) > offsets[2] ||
+                                                            (offsets[2] + visiDiff) > 0) { goodCount += 1; }
 
-                                                if ((offsets[1] + eduDiff) > offsets[1] ||
-                                                        (offsets[1] + eduDiff) > 0) { goodCount += 1; }
+                                                    if (goodCount == 2)
+                                                    {
+                                                        currEmployees.Add(i.removeEmployee(p));
+                                                        i.addEmployee(j);
+                                                        currEmployees.Remove(j);
+                                                    }
 
-                                                if (goodCount > 0) {
-                                                    currEmployees.Add(i.removeEmployee(exEmployees[0]));
-                                                    i.addEmployee(j);
                                                 }
+                                                else
+                                                {
+                                                    //our lowest value is larger than the unassigned
+                                                    //employee's largest value, so we skip this 
+                                                    //swap with unassinged employees
+                                                    goodCount = -1;
+                                                }
+                                                break;
+                                            case 2:
+                                                if (visiDiff > 0)
+                                                {
 
-                                            } else {
-                                                //our lowest value is larger than the unassigned
-                                                //employee's largest value, so we skip this 
-                                                //swap with unassinged employees
-                                                goodCount = -1;
-                                            }
+                                                    if ((offsets[0] + tourDiff) > offsets[0] ||
+                                                            (offsets[0] + tourDiff) > 0) { goodCount += 1; }
+
+                                                    if ((offsets[1] + eduDiff) > offsets[1] ||
+                                                            (offsets[1] + eduDiff) > 0) { goodCount += 1; }
+
+                                                    if (goodCount == 2)
+                                                    {
+                                                        currEmployees.Add(i.removeEmployee(p));
+                                                        i.addEmployee(j);
+                                                        currEmployees.Remove(j);
+                                                    }
+
+                                                }
+                                                else
+                                                {
+                                                    //our lowest value is larger than the unassigned
+                                                    //employee's largest value, so we skip this 
+                                                    //swap with unassinged employees
+                                                    goodCount = -1;
+                                                }
+                                                break;
+                                        }
+
+                                        if (goodCount == 2)
+                                        {
+                                            swapped = true;
                                             break;
+                                        }
+                                        else if (goodCount == -1)
+                                        {
+                                            break;
+                                        }
                                     }
-
-                                    if (goodCount > 0) {
-                                        swapped = true;
-                                        break;
-                                    } else if (goodCount == -1) {
-                                        break;
-                                    }
+                                    if (swapped == true) { break; }
 
                                 }
 
@@ -355,117 +404,143 @@ namespace hsr_museum.src.main.model.structures
                                     int[] otherOffsets = p.offsets();
 
                                     foreach (Employee e in otherExEmployees) {
-                                        int goodCount = 0;
+                                        foreach (Employee f in exEmployees)
+                                        {
+                                            int goodCount = 0;
 
-                                        //diff in terms of how much current exhibition wuld gain if we swap
-                                        //diff in terms of how much othe rexhibition would lose if we swap
-                                        int tourDiff = (int)e.tourDuration - (int)exEmployees[0].tourDuration;
-                                        int eduDiff = (int)e.educationalValue - (int)exEmployees[0].educationalValue;
-                                        int visiDiff = (int)e.visitorAppeal - (int)exEmployees[0].visitorAppeal;
-                                        switch (o) {
-                                            case 0:
-                                                if (tourDiff > 0) {
-                                                    
-                                                    //if we swap, current exhibition benefits, but check to see
-                                                    //if other exhibition does not lose too much from it
-                                                    if ((otherOffsets[0] - tourDiff) > 0) { goodCount += 1; }
+                                            //diff in terms of how much current exhibition wuld gain if we swap
+                                            //diff in terms of how much othe rexhibition would lose if we swap
+                                            int tourDiff = (int)e.tourDuration - (int)f.tourDuration;
+                                            int eduDiff = (int)e.educationalValue - (int)f.educationalValue;
+                                            int visiDiff = (int)e.visitorAppeal - (int)f.visitorAppeal;
+                                            switch (o)
+                                            {
+                                                case 0:
+                                                    if (tourDiff > 0)
+                                                    {
 
-                                                    if (
-                                                        ((offsets[1] + eduDiff) > offsets[1] ||
-                                                         (offsets[1] + eduDiff) > 0) &&
-                                                        ((otherOffsets[1] - eduDiff) > otherOffsets[1] ||
-                                                         (otherOffsets[1] - eduDiff > 0))
-                                                        ) { goodCount += 1; }
+                                                        //if we swap, current exhibition benefits, but check to see
+                                                        //if other exhibition does not lose too much from it
+                                                        if ((otherOffsets[0] - tourDiff) > 0) { goodCount += 1; }
 
-                                                    if (
-                                                        ((offsets[2] + visiDiff) > offsets[2] ||
-                                                         (offsets[2] + visiDiff) > 0) &&
-                                                        ((otherOffsets[2] - visiDiff) > otherOffsets[2] ||
-                                                         (otherOffsets[2] - visiDiff) > 0)
-                                                        ) { goodCount += 1; }
+                                                        if (
+                                                            ((offsets[1] + eduDiff) > offsets[1] ||
+                                                             (offsets[1] + eduDiff) > 0) &&
+                                                            ((otherOffsets[1] - eduDiff) > otherOffsets[1] ||
+                                                             (otherOffsets[1] - eduDiff > 0))
+                                                            ) { goodCount += 1; }
 
-                                                    if (goodCount > 0) {
-                                                        currEmployees.Add(i.removeEmployee(exEmployees[0]));
-                                                        i.addEmployee(e);
+                                                        if (
+                                                            ((offsets[2] + visiDiff) > offsets[2] ||
+                                                             (offsets[2] + visiDiff) > 0) &&
+                                                            ((otherOffsets[2] - visiDiff) > otherOffsets[2] ||
+                                                             (otherOffsets[2] - visiDiff) > 0)
+                                                            ) { goodCount += 1; }
+
+                                                        if (goodCount == 3)
+                                                        {
+                                                            i.removeEmployee(f);
+                                                            i.addEmployee(e);
+                                                            p.removeEmployee(e);
+                                                            p.addEmployee(f);
+                                                        }
+
                                                     }
-
-                                                } else {
-                                                    //our lowest value is larger than the unassigned
-                                                    //employee's largest value, so we skip this 
-                                                    //swap with unassinged employees
-                                                    goodCount = -1;
-                                                }
-                                                break;
-                                            case 1:
-                                                if (eduDiff > 0) {
-
-                                                    if ((otherOffsets[1] - eduDiff) > 0) { goodCount += 1; }
-
-                                                    if (
-                                                        ((offsets[0] + tourDiff) > offsets[0] ||
-                                                         (offsets[0] + tourDiff) > 0) &&
-                                                        ((otherOffsets[0] - tourDiff) > otherOffsets[0] ||
-                                                         (otherOffsets[0] - tourDiff) > 0)
-                                                        ) { goodCount += 1; }
-
-                                                    if (
-                                                        ((offsets[2] + visiDiff) > offsets[2] ||
-                                                         (offsets[2] + visiDiff) > 0) &&
-                                                        ((otherOffsets[2] - visiDiff) > otherOffsets[2] ||
-                                                         (otherOffsets[2] - visiDiff) > 0)
-                                                        ) { goodCount += 1; }
-
-                                                    if (goodCount > 0) {
-                                                        currEmployees.Add(i.removeEmployee(exEmployees[0]));
-                                                        i.addEmployee(e);
+                                                    else
+                                                    {
+                                                        //our lowest value is larger than the unassigned
+                                                        //employee's largest value, so we skip this 
+                                                        //swap with unassinged employees
+                                                        goodCount = -1;
                                                     }
+                                                    break;
+                                                case 1:
+                                                    if (eduDiff > 0)
+                                                    {
 
-                                                } else {
-                                                    //our lowest value is larger than the unassigned
-                                                    //employee's largest value, so we skip this 
-                                                    //swap with unassinged employees
-                                                    goodCount = -1;
-                                                }
-                                                break;
-                                            case 2:
-                                                if (visiDiff > 0) {
+                                                        if ((otherOffsets[1] - eduDiff) > 0) { goodCount += 1; }
 
-                                                    if ((otherOffsets[2] - visiDiff) > 0) { goodCount += 1; }
+                                                        if (
+                                                            ((offsets[0] + tourDiff) > offsets[0] ||
+                                                             (offsets[0] + tourDiff) > 0) &&
+                                                            ((otherOffsets[0] - tourDiff) > otherOffsets[0] ||
+                                                             (otherOffsets[0] - tourDiff) > 0)
+                                                            ) { goodCount += 1; }
 
-                                                    if (
-                                                        ((offsets[0] + tourDiff) > offsets[0] ||
-                                                         (offsets[0] + tourDiff) > 0) &&
-                                                        ((otherOffsets[0] - tourDiff > otherOffsets[0]) ||
-                                                         (otherOffsets[0] - tourDiff) > 0)
-                                                        ) { goodCount += 1; }
+                                                        if (
+                                                            ((offsets[2] + visiDiff) > offsets[2] ||
+                                                             (offsets[2] + visiDiff) > 0) &&
+                                                            ((otherOffsets[2] - visiDiff) > otherOffsets[2] ||
+                                                             (otherOffsets[2] - visiDiff) > 0)
+                                                            ) { goodCount += 1; }
 
-                                                    if (
-                                                        ((offsets[1] + eduDiff) > offsets[1] ||
-                                                         (offsets[1] + eduDiff) > 0) &&
-                                                         ((otherOffsets[1] - eduDiff) > otherOffsets[1]) ||
-                                                         (otherOffsets[1] - eduDiff) > 0
-                                                        ) { goodCount += 1; }
+                                                        if (goodCount == 3)
+                                                        {
+                                                            i.removeEmployee(f);
+                                                            i.addEmployee(e);
+                                                            p.removeEmployee(e);
+                                                            p.addEmployee(f);
+                                                        }
 
-                                                    if (goodCount > 0) {
-                                                        currEmployees.Add(i.removeEmployee(exEmployees[0]));
-                                                        i.addEmployee(e);
                                                     }
+                                                    else
+                                                    {
+                                                        //our lowest value is larger than the unassigned
+                                                        //employee's largest value, so we skip this 
+                                                        //swap with unassinged employees
+                                                        goodCount = -1;
+                                                    }
+                                                    break;
+                                                case 2:
+                                                    if (visiDiff > 0)
+                                                    {
 
-                                                } else {
-                                                    //our lowest value is larger than the unassigned
-                                                    //employee's largest value, so we skip this 
-                                                    //swap with unassinged employees
-                                                    goodCount = -1;
-                                                }
+                                                        if ((otherOffsets[2] - visiDiff) > 0) { goodCount += 1; }
+
+                                                        if (
+                                                            ((offsets[0] + tourDiff) > offsets[0] ||
+                                                             (offsets[0] + tourDiff) > 0) &&
+                                                            ((otherOffsets[0] - tourDiff > otherOffsets[0]) ||
+                                                             (otherOffsets[0] - tourDiff) > 0)
+                                                            ) { goodCount += 1; }
+
+                                                        if (
+                                                            ((offsets[1] + eduDiff) > offsets[1] ||
+                                                             (offsets[1] + eduDiff) > 0) &&
+                                                             ((otherOffsets[1] - eduDiff) > otherOffsets[1]) ||
+                                                             (otherOffsets[1] - eduDiff) > 0
+                                                            ) { goodCount += 1; }
+
+                                                        if (goodCount == 3)
+                                                        {
+                                                            i.removeEmployee(f);
+                                                            i.addEmployee(e);
+                                                            p.removeEmployee(e);
+                                                            p.addEmployee(f);
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        //our lowest value is larger than the unassigned
+                                                        //employee's largest value, so we skip this 
+                                                        //swap with unassinged employees
+                                                        goodCount = -1;
+                                                    }
+                                                    break;
+                                            }
+
+                                            if (goodCount == 3)
+                                            {
+                                                swapped = true;
                                                 break;
+                                            }
+                                            else if (goodCount == -1)
+                                            {
+                                                break;
+                                            }
                                         }
-
-                                        if (goodCount > 0) {
-                                            swapped = true;
-                                            break;
-                                        } else if (goodCount == -1) {
-                                            break;
-                                        }
+                                        if (swapped == true) { break; }
                                     }
 
                                     //end loop once no other swaps can be made
