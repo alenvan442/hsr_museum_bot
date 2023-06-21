@@ -139,19 +139,26 @@ namespace hsr_museum.src.main.model.structures
         /// <param name="option">param to choose how we sort</param>
         /// <param name="desc">which direction we sort, defaulted to descending</param>
         /// <returns>the sorted list</returns>
-        private Employee[] sort(Employee[] employees, int option = 0, Boolean desc = true) {
+        private Employee[] sortEmployee(Employee[] employees, int option = 0, Boolean desc = true) {
+            if (employees.Count() <= 1) {
+                return employees;
+            }
+
             Employee[] firstHalf = new Employee[employees.Count() / 2];
             Array.Copy(
-                this.sort(employees, option, desc),
+                employees,
                 0, 
                 firstHalf, 0, 
                 employees.Count() / 2);
+            firstHalf = this.sortEmployee(firstHalf, option, desc);
+
             Employee[] secondHalf = new Employee[employees.Count() - (employees.Count() / 2)];
             Array.Copy(
-                this.sort(employees, option, desc),
-                (employees.Count() / 2) + 1,
+                employees,
+                (employees.Count() / 2),
                 secondHalf, 0, 
                 (employees.Count() - (employees.Count() / 2)));
+            secondHalf = this.sortEmployee(secondHalf, option, desc);
 
             Employee[] sorted = new Employee[employees.Count()];
 
@@ -161,7 +168,7 @@ namespace hsr_museum.src.main.model.structures
             for (int i = 0; i < employees.Count(); i++) {
 
                 //if the first half has been used up, add the rest of the second half
-                if (firstIndex > firstHalf.Count()) {
+                if (firstIndex >= firstHalf.Count()) {
                     while (secondIndex < secondHalf.Count()) {
                         sorted[i] = secondHalf[secondIndex];
                         secondIndex++;
@@ -171,7 +178,7 @@ namespace hsr_museum.src.main.model.structures
                 }
 
                 //if the second half has been used up, add the rest of the first half
-                if (secondIndex > secondHalf.Count()) {
+                if (secondIndex >= secondHalf.Count()) {
                     while (firstIndex < firstHalf.Count()) {
                         sorted[i] = firstHalf[firstIndex];
                         firstIndex++;
@@ -182,10 +189,10 @@ namespace hsr_museum.src.main.model.structures
 
                 //compare and add
                 int compareResult = (descending) * firstHalf[firstIndex].compareTo(secondHalf[secondIndex], option);
-                if (compareResult > 1) {
+                if (compareResult > 0) {
                     sorted[i] = firstHalf[firstIndex];
                     firstIndex++;
-                } else if (compareResult < 1) {
+                } else if (compareResult < 0) {
                     sorted[i] = secondHalf[secondIndex];
                     secondIndex++;
                 } else {
@@ -203,16 +210,17 @@ namespace hsr_museum.src.main.model.structures
         public Exhibition[] calc() {
             List<Employee> currEmployees = this.employees.Values.ToList();
             List<Exhibition> currExhibition = this.exhibitions.Values.ToList();
+            currExhibition.Sort();
 
             //sort based on total
-            currEmployees = sort(currEmployees.ToArray()).ToList();
+            currEmployees = sortEmployee(currEmployees.ToArray()).ToList();
 
             //append greatest total to each
             foreach (Exhibition i in currExhibition) {
-                if (i.employees.Count() == 0) {
-                    i.addEmployee(currEmployees[0]);
-                    currEmployees.RemoveAt(0);
-                }
+                //reset exhibition and start
+                i.clearEmployees();
+                i.addEmployee(currEmployees[0]);
+                currEmployees.RemoveAt(0);
             }
 
             //foreach exhibition that does not have a weight of 0
@@ -220,13 +228,14 @@ namespace hsr_museum.src.main.model.structures
             //append the next greatest
             //continue until each exhibition has 3 employees or no employees are lef tot be assigned
             foreach (Exhibition i in currExhibition) {
-                while (i.employees.Count() != 3 && i.weight() != 0 && currEmployees.Count() > 0) {
+                while (i.employees.Count() < 3 && i.weight() != 0 && currEmployees.Count() > 0) {
                     int[] offsets = i.offsets();
                     for (int o = 0; o < offsets.Count(); o++) {
                         if (offsets[o] < 0) {
-                            currEmployees = sort(currEmployees.ToArray(), o + 1).ToList();
+                            currEmployees = sortEmployee(currEmployees.ToArray(), o + 1).ToList();
                             i.addEmployee(currEmployees[0]);
                             currEmployees.RemoveAt(0);
+                            break;
                         }
                     }
                 }
@@ -248,8 +257,8 @@ namespace hsr_museum.src.main.model.structures
                         //swap the employees if fouond
                         for (int o = 0; o < offsets.Count(); o++) {
                             if (offsets[o] < 0) {
-                                currEmployees = sort(currEmployees.ToArray(), o + 1).ToList();
-                                List<Employee> exEmployees = sort(i.employees, o + 1, false).ToList();
+                                currEmployees = sortEmployee(currEmployees.ToArray(), o + 1).ToList();
+                                List<Employee> exEmployees = sortEmployee(i.employees.ToArray(), o + 1, false).ToList();
 
                                 foreach (Employee j in currEmployees) {
                                     int goodCount = 0;
@@ -342,7 +351,7 @@ namespace hsr_museum.src.main.model.structures
                                 // 2. benefits one without hurting the other
                                 foreach (Exhibition p in currExhibition) {
                                     if (i == p) { continue; }
-                                    List<Employee> otherExEmployees = sort(p.employees, o + 1).ToList();
+                                    List<Employee> otherExEmployees = sortEmployee(p.employees.ToArray(), o + 1).ToList();
                                     int[] otherOffsets = p.offsets();
 
                                     foreach (Employee e in otherExEmployees) {

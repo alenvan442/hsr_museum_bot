@@ -24,7 +24,7 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
         public uint[] visitorAppeals { get; private set; }
         [JsonProperty("VisitorAppealLevel")]
         public int visitorAppealLevel { get; private set; }
-        public Employee[] employees { get; private set; }
+        public List<Employee> employees { get; private set; }
 
         /// <summary>
         /// json constructor for the exhibition object
@@ -53,7 +53,7 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
             this.educationalValueLevel = EducationalValueLevel;
             this.visitorAppeals = VisitorAppeals;
             this.visitorAppealLevel = VisitorAppealLevel;
-            this.employees = new Employee[3];
+            this.employees = new List<Employee>();
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
             this.educationalValueLevel = (parameters != null && parameters[2] != 0 ? parameters[2] : 1);
             this.visitorAppeals = exhibition.visitorAppeals;
             this.visitorAppealLevel = (parameters != null && parameters[3] != 0 ? parameters[3] : 1);
-            this.employees = new Employee[3];
+            this.employees = new List<Employee>();
         }
 
         /// <summary>
@@ -192,41 +192,42 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
             return result;
         }
 
-        private uint[] exValues() {
+        public uint[] exValues() {
             uint[] result = new uint[3];
-            uint[] currBaseStat = this.baseStats[this.level];
+            uint[] currBaseStat = this.baseStats[this.level - 1];
 
-            result[0] = currBaseStat[0] + this.tourDurations[this.tourDurationLevel];
-            result[1] = currBaseStat[1] + this.educationalValues[this.educationalValueLevel];
-            result[2] = currBaseStat[2] + this.visitorAppeals[this.visitorAppealLevel];
+            result[0] = currBaseStat[0] + this.tourDurations[this.tourDurationLevel - 1];
+            result[1] = currBaseStat[1] + this.educationalValues[this.educationalValueLevel - 1];
+            result[2] = currBaseStat[2] + this.visitorAppeals[this.visitorAppealLevel - 1];
 
             return result;
+        }
+
+        public uint totalBaseValue() {
+            uint[] baseStats = this.exValues();
+            return baseStats[0] + baseStats[1] + baseStats[2];
         }
 
         public Boolean addEmployee(Employee employee) { 
             if(this.employees.Count() >= 3) {
                 return false;
             } else {
-                this.employees[this.employees.Count()] = employee;
+                this.employees.Add(employee);
                 return true;
             }
         }
 
         public Employee removeEmployee(Employee employee) {
-            List<Employee> currEmployees = this.employees.ToList();
-            if (!currEmployees.Contains(employee)) {
+            if (!employees.Contains(employee)) {
                 return null;
             } else {
-                currEmployees.Remove(employee);
-                this.employees = currEmployees.ToArray();
+                employees.Remove(employee);
                 return employee;
             }
         }
 
         public void clearEmployees() {
-            for (int i = 0; i > this.employees.Count(); i++) {
-                this.employees[i] = null;
-            }
+            this.employees.RemoveRange(0, this.employees.Count());
         }
 
         public override bool Equals(object? obj)
@@ -251,6 +252,15 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
             }
 
             return result;
+        }
+
+        public int CompareTo(object? obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) {
+                return 1;
+            }
+            Exhibition other = (Exhibition)obj;
+            return (int)this.totalBaseValue() - (int)other.totalBaseValue();
         }
     }
 }

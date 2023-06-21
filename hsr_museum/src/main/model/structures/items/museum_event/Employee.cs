@@ -61,7 +61,7 @@ namespace hsr_museum.src.main.model.structures.items.museum_event
         /// Negative Integer: this is lesser than the other
         /// </returns>
         public int compareTo(object obj, int option) {
-            if (obj != null || GetType() != obj.GetType()) {
+            if (obj == null || GetType() != obj.GetType()) {
                 return 0;
             } else { 
                 Employee other = (Employee)obj;

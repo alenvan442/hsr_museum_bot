@@ -2,7 +2,15 @@
   "336759879765065730": {
     "ID": 336759879765065730,
     "Name": "sobdh",
-    "Employees": {},
+    "Employees": {
+      "0": "Pela",
+      "1": "Natasha",
+      "2": "Hook",
+      "3": "Bronya",
+      "4": "Seele",
+      "6": "Serval",
+      "8": "Gepard"
+    },
     "Exhibitions": {
       "3": [
         1,

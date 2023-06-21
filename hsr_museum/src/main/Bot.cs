@@ -55,7 +55,6 @@ namespace hsr_museum.src.main
             //set the commands of the bot
             commands = client.UseCommandsNext(commandConfig);
             commands.RegisterCommands<MuseumCommands>();
-            //commands.RegisterCommands<Farming>();
             //commands.RegisterCommands<Shop>();
 
             //Set up interactivity

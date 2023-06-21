@@ -191,6 +191,7 @@ namespace hsr_museum.src.main.view.discord.commands
                 [Description("What level to set the parameter to.")]
                 int level = 0) { 
 
+            //TODO better output embed strings
             if (ctx.Member == null) {
                 await Task.CompletedTask;
             } else {
@@ -228,24 +229,29 @@ namespace hsr_museum.src.main.view.discord.commands
         [Command("calc")]
         [Description("Calculate the most optimal employee configuration.")]
         public async Task calc(CommandContext ctx) { 
+            //TODO DEBUG
             if (ctx.Member == null) {
 
                 await Task.CompletedTask;
             } else {
                 Player currPlayer = CommandsHelper.playerController.getObject(ctx.Member.Id);
+                DiscordEmbed embed;
+
+                if (currPlayer.getExhibitions().Count() < 0) {
+                    embed = CommandsHelper.createEmbed("You need exhibitions in order to run calc");
+                    await ctx.Channel.SendMessageAsync(embed);
+                    return;
+                }
+
                 Exhibition[] optExhibitions = currPlayer.calc();
                 string output = "";
 
                 foreach (Exhibition i in optExhibitions) {
-                    output += i.ToString();
+                    output += i.ToString() + "\n";
                     i.clearEmployees();
                 }
 
-                if (output == "") {
-                    output = "You have no exhibitions to optimize.";
-                }
-
-                DiscordEmbed embed = CommandsHelper.createEmbed(output);
+                embed = CommandsHelper.createEmbed(output);
 
                 //send message
                 await ctx.Channel.SendMessageAsync(embed);
@@ -259,6 +265,7 @@ namespace hsr_museum.src.main.view.discord.commands
                 [Description("Select which status you would like to see. (employees, exhibitions, all)")]
                 string option = "") {
 
+            //TODO better output strings, use embed fields
             if (ctx.Member == null) {
                 await Task.CompletedTask;
             }
@@ -291,6 +298,8 @@ namespace hsr_museum.src.main.view.discord.commands
                         output = "unknown error TODO";
                         break;
                 }
+
+                if (output == "") { output = "You do not have any, add some then try again."; }
 
                 DiscordEmbed embed = CommandsHelper.createEmbed(output);
                 await ctx.Channel.SendMessageAsync(embed);
